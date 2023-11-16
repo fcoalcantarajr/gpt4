@@ -18,7 +18,7 @@ def gpt4(prompt, role_sequel=None, prompt_sequel=None):
     mensagem_inicial = [
             {
                 "role": "system",
-                "content": "Olá, este é um chatbot com você como o GPT-4 de apoio. Você irá conversar comigo."
+                "content": "Hello, this is a Flask app to interact with GPT-4."
             },
             {
                 "role": "user",
