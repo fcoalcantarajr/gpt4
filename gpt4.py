@@ -18,7 +18,7 @@ def gpt4(prompt, role_sequel=None, prompt_sequel=None):
     mensagem_inicial = [
             {
                 "role": "system",
-                "content": "Hello, this is a Flask app to interact with GPT-4."
+                "content": "Hello, you are inside a Flask app that allows the user to interact with a GPT-4 model."
             },
             {
                 "role": "user",

@@ -17,7 +17,13 @@
     </div>
 
     <form action="{{ url_for('send_message') }}" method="post">
-        <input type="text" name="user_message" placeholder="Type your message" required>
+        <style>
+          .dynamic-input {
+            width: calc(100% - 200px); /* Adjust the value (200px) according to your needs */
+          }
+        </style>
+        
+        <input type="text" name="user_message" placeholder="Type your message" class="dynamic-input" required>
         <button type="submit">Send</button>
     </form>
 </body>
