@@ -27,6 +27,11 @@ def send_message():
         print("Aplicação será encerrada em 30 segundos...")
         time.sleep(30)
         exit()
+    # Check if the user wants to restart the application
+    elif user_message == 'reiniciar':
+        # Clear the messages list
+        messages.clear()
+        print("Application restarted")
     else:
         # Append the user's message to the messages list
         messages.append(('User', user_message))
@@ -39,9 +44,9 @@ def send_message():
         messages.append(('GPT-4', f'{resposta}'))
         print(f"GPT-4 response: {resposta}")
         
-        # Render the index.html template and pass the messages list to it
-        print("Rendering index.html")
-        return render_template('index.html', messages=messages)
+    # Render the index.html template and pass the messages list to it
+    print("Rendering index.html")
+    return render_template('index.html', messages=messages)
 
 
 # Run the Flask application if this script is executed directly

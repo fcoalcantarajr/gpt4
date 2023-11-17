@@ -45,22 +45,24 @@ def gpt4(prompt, role_sequel=None, prompt_sequel=None):
 # Define a function to call the gpt4 function
 def chamar_gpt4(prompt, primeira_chamada=True):
     # Call the gpt4 function for the first time
-    if primeira_chamada == 1:
-        retorno = gpt4(prompt)
-        papel = retorno[1]
-        conteudo = retorno[0]
-        primeira_chamada += False
+    if primeira_chamada:
+        conteudo, papel = gpt4(prompt)
+        primeira_chamada = False
         return conteudo
+    
     # Call the gpt4 function for subsequent times
     else:
         while True:
-            retorno = gpt4(prompt, papel, conteudo)
-            papel = retorno[1]
-            conteudo = retorno[0]
+            conteudo, papel = gpt4(prompt, papel, conteudo)
             return conteudo
 
 # Define the main function
 def principal(prompt):
     # Call the chamar_gpt4 function to get the response from GPT-4
     conteudo = chamar_gpt4(prompt)
-    return conteudo
+    primeira_chamada=False
+    if prompt == 'restart':
+        primeira_chamada=True
+    else:
+        conteudo = chamar_gpt4(prompt, primeira_chamada)
+        return conteudo
