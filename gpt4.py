@@ -53,17 +53,25 @@ def get_multiline_input():
     Returns:
         str: The multiline input provided by the user.
     """
-    print(
-        "Enter your prompt. Press Ctrl+D (or Ctrl+Z on Windows) when finished:"
-    )
-    input_lines = []
-    while True:
-        try:
-            line = input()
-        except EOFError:
-            break
-        input_lines.append(line)
+    # Print a prompt for the user to enter their input.
+    print("Enter your prompt. Press Ctrl+D when finished:")
 
+    # Initialize an empty list to store the input lines.
+    input_lines = []
+    
+    try:
+        # Keep looping until an EOFError is raised.
+        while True:
+            # Read a line of input from the user.
+            line = input()
+            
+            # Append the line to the list of input lines.
+            input_lines.append(line)
+    except EOFError:
+        # When an EOFError is raised, it means the user has finished entering input.
+        pass
+    
+    # Join the input lines into a single string using newline characters as separators.
     return "\n".join(input_lines)
 
 def main():
