@@ -12,57 +12,54 @@ API_KEY = os.getenv('API_KEY')
 # Set the API key for the openai module
 client = OpenAI(api_key=API_KEY)
 
-# Define a function to interact with the GPT-4 model
-def gpt4(prompt, role_sequel=None, prompt_sequel=None):
-    # Define an initial message to start the conversation
-    mensagem_inicial = [
-            {
-                "role": "system",
-                "content": "Hello, you are inside a Flask app that allows the user to interact with a GPT-4 model."
-            },
-            {
-                "role": "user",
-                "content": f"{prompt}"
-            }
-        ]
-    # Append additional messages if provided
-    if prompt_sequel != None:
-        mensagem_inicial.append({
-            "role": f"{role_sequel}",
-            "content": f"{prompt_sequel}"
-        })
+mensagens = [{
+    "role": "system",
+    "content": "Hello, you are an assistant model."
+}]
+
+def inserir_prompt(prompt):
+    global mensagens
+    dicionario = {"role": "user", "content": f'{prompt}'}
+    mensagens.append(dicionario)
+
+
+def gpt4(mensagens):
     # Call the GPT-4 model to generate a completion
-    completion = client.chat.completions.create(
-        model="gpt-4-1106-preview",
-        messages=mensagem_inicial
-    )
+    completion = client.chat.completions.create(model="gpt-4-1106-preview",
+                                                messages=mensagens)
     # Extract the content and role from the generated completion
     content = completion.choices[0].message.content
     role = completion.choices[0].message.role
     # Return the content and role as a list
-    return [content, role]
+    dicionario = {"role": role, "content": content}
+    return dicionario
 
-# Define a function to call the gpt4 function
-def chamar_gpt4(prompt, primeira_chamada=True):
-    # Call the gpt4 function for the first time
-    if primeira_chamada:
-        conteudo, papel = gpt4(prompt)
-        primeira_chamada = False
-        return conteudo
-    
-    # Call the gpt4 function for subsequent times
-    else:
-        while True:
-            conteudo, papel = gpt4(prompt, papel, conteudo)
-            return conteudo
+def get_multiline_input():
+    print(
+        "Enter your prompt. Press Ctrl+D (or Ctrl+Z on Windows) when finished:"
+    )
+    input_lines = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        input_lines.append(line)
 
-# Define the main function
-def principal(prompt):
-    # Call the chamar_gpt4 function to get the response from GPT-4
-    conteudo = chamar_gpt4(prompt)
-    primeira_chamada=False
-    if prompt == 'restart':
-        primeira_chamada=True
-    else:
-        conteudo = chamar_gpt4(prompt, primeira_chamada)
-        return conteudo
+    return "\n".join(input_lines)
+
+
+def main():
+    while True:
+        texto = get_multiline_input()
+        if texto != 'sair':
+            inserir_prompt(texto)
+            retorno = gpt4(mensagens)
+            print(retorno["content"])
+        else:
+            print('Saindo...')
+            break
+
+
+if __name__ == '__main__':
+    main()
