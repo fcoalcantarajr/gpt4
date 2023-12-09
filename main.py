@@ -1,7 +1,8 @@
-import os
-from openai import OpenAI
-import random
 import datetime
+import os
+import random
+
+from openai import OpenAI
 
 API_KEY = os.getenv('API_KEY')
 
@@ -111,7 +112,7 @@ def main():
             retorno = gpt4(mensagens)
             conteudo = retorno["content"]
             print(conteudo)
-            escrever_arquivo(texto, conteudo, numero)
+            escrever_arquivo(texto, conteudo)
         else:
             print('Saindo...')
             break
