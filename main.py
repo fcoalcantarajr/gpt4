@@ -1,12 +1,13 @@
-import datetime
 import os
-import random
+from datetime import datetime
 
+import pytz
 from openai import OpenAI
 
 API_KEY = os.getenv('API_KEY')
 
 client = OpenAI(api_key=API_KEY)
+
 
 def gerar_timestamp():
     """
@@ -15,13 +16,20 @@ def gerar_timestamp():
     Returns:
     - A timestamp string in the format 'YYYY-MM-DD HH:MM:SS'.
     """
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timezone = pytz.timezone('America/Fortaleza')
+    utc_now = datetime.utcnow()
+    utc_now = utc_now.replace(tzinfo=pytz.utc)
+    local_now = utc_now.astimezone(timezone)
+    timestamp = local_now.strftime('%Y-%m-%d %H:%M:%S')
+
     return timestamp
+
 
 mensagens = [{
     "role": "system",
     "content": "Hello, you are an assistant model."
 }]
+
 
 def inserir_prompt(prompt):
     """
@@ -56,6 +64,7 @@ def gpt4(mensagens):
     dicionario = {"role": role, "content": content}
     return dicionario
 
+
 def get_multiline_input():
     """
     Function to get multiline input from the user.
@@ -74,6 +83,7 @@ def get_multiline_input():
         input_lines.append(line)
 
     return "\n".join(input_lines)
+
 
 def escrever_arquivo(prompt, resposta):
     """
@@ -97,13 +107,13 @@ def escrever_arquivo(prompt, resposta):
             file.write(f'\nPrompt: {prompt}\n')
             file.write(f'\nResposta: {resposta}\n')
 
+
 def main():
     """
     Main function that handles the user interaction.
 
     Returns: None
     """
-    numero = random.randint(1, 99999999)
     while True:
         texto = get_multiline_input()
         print("Prompt inserido com sucesso!")
@@ -116,6 +126,7 @@ def main():
         else:
             print('Saindo...')
             break
+
 
 if __name__ == '__main__':
     main()
