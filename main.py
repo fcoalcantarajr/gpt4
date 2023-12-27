@@ -1,7 +1,6 @@
 import os
 from openai import OpenAI
 import pandas as pd
-from pprint import pp
 
 from inserir import *
 from gerar_timestamp import *
