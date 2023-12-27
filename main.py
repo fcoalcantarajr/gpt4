@@ -8,6 +8,9 @@ from gerar_timestamp import *
 from gpt4 import *
 from inserir_input import *
 from salvar_arquivos import *
+import dotenv
+
+dotenv.load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
 
