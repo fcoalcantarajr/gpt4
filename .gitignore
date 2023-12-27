@@ -2,3 +2,4 @@
 /*.txt
 csv_saved/
 outputs/
+__pycache__/
