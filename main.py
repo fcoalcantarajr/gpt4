@@ -10,16 +10,18 @@ from salvar_arquivos import *
 
 API_KEY = os.getenv('API_KEY')
 
-def gerar_mensagens(inicial=None):  
+
+def gerar_mensagens(inicial=None):
     if inicial is None:
         mensagens = [{
             "role": "system",
             "content": "Hello, you are an assistant model."
         }]
     else:
-        df = pd.read_csv(inicial)
-        mensagens = df.to_dict('records')
+        df = pd.read_csv(inicial, encoding='utf-8-sig')
+        mensagens = df.to_dict(orient='records')
     return mensagens
+
 
 def main():
     """
@@ -45,6 +47,7 @@ def main():
         else:
             print('Saindo...')
             break
+
 
 if __name__ == '__main__':
     main()
